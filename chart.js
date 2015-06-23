@@ -1,25 +1,25 @@
 function Chart() {
 
-  var w = 1000,
-    h = 400,
+  var w = document.body.clientWidth,
+    h = 600,
     data = null,
     path = d3
     .select("#chart")
     .append("svg")
-    .attr("width", w + "px")
-    .attr("height", h + "px")
+    .attr("width", w)
+    .attr("height", h)
     .attr("style", "overflow: visible");
 
   data = [];
 
-  for (var i = -50; i <= 50; i+=0.1) {
+  for (var i = -50; i <= 50; i += 0.1) {
     data.push({
       x: i,
       y: Math.pow(i, 2)
     });
   }
 
-	console.log(data);
+  console.log(data);
 
   var maxX = _.max(data, function(x) {
     return x.x;
