@@ -101,7 +101,8 @@ function Chart(Id, A, n) {
 
       tmp += calcIntegralMidRule([Ticks[k],Ticks[k + 1]]);
     }
-    console.log("Fläche komplett Mid:" + tmp);
+
+    console.log("Komplette Fläche nach Midpoint-Rule Approximation: " + tmp + " bei n=" + n);
   }
 
   if(A==2) {
@@ -123,11 +124,7 @@ function Chart(Id, A, n) {
         .attr("class", "line2")
         .append("path")
         .datum(data)
-        .transition()
-        .duration(450)
-        .attr("d", line2)
-        .attr("stroke", "red")
-        .attr("fill", "none");
+        .attr("d", line2);
 
   }
 
@@ -149,11 +146,7 @@ function Chart(Id, A, n) {
         .attr("class", "line2")
         .append("path")
         .datum(data)
-        .transition()
-        .duration(450)
-        .attr("d", line3)
-        .attr("stroke", "red")
-        .attr("fill", "none");
+        .attr("d", line3);
 
   }
 
