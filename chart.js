@@ -25,9 +25,23 @@ function Chart(Id, A) {
   }
 
   function f_TrapezoidRule(Points, x) {
-    var m = (f(Points[1])-  f(Points[0])) / (Points[1] - Points[0]);
-    var c = (y(Points[0]) - m) + f(Points[0]);
-    return x > Points[0] && x < Points[1] ? m * x + c : 0;
+    var a = Points[0];
+    var b = Points[1];
+    var m = (f(b)-  f(a)) / (b - a);
+    var c = (y(a) - m) + f(a);
+    return x > a && x < b ? m * x + c : 0;
+  }
+
+  function f_SimpsonsRule(Points, x) {
+    var a = Points[0];
+    var b = Points[1];
+    var m = (a + b) / 2;
+
+    var A = f(a) * (((x - m) * (x - b)) / ((a - m) * (a - b)));
+    var B = f(m) * (((x - a) * (x - b)) / ((m - a) * (m - b)));
+    var C = f(b) * (((x - a) * (x - m)) / ((b - a) * (b - m)));
+
+    return x > Points[0] && x < Points[1] ? A + B + C : 0;
   }
 
   var maxX = _.max(data, function(data) {
@@ -84,6 +98,31 @@ function Chart(Id, A) {
         .transition()
         .duration(450)
         .attr("d", line2)
+        .attr("stroke", "red")
+        .attr("fill", "none");
+
+  }
+
+  if(A==3) {
+
+  var line3 = d3.svg.area()
+      .x(function(d) {
+        return x(d.x);
+      })
+      .y0(function(d) {
+        return y(0);
+      })
+      .y1(function(d) {
+        return y(f_SimpsonsRule([1,3], d.x));
+      });
+
+      path.append("g")
+        .attr("class", "line2")
+        .append("path")
+        .datum(data)
+        .transition()
+        .duration(450)
+        .attr("d", line3)
         .attr("stroke", "red")
         .attr("fill", "none");
 
