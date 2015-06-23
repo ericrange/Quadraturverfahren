@@ -1,4 +1,4 @@
-function Chart(Id, A) {
+function Chart(Id, A, n) {
 
   var w = document.body.clientWidth,
     h = 600,
@@ -12,6 +12,14 @@ function Chart(Id, A) {
 
   data = [], f;
 
+  var Ticks = [];
+  var Tick = (3 - 1) / n;
+  for (var Step = 1; Step <= 3; Step+=Tick) {
+    Ticks.push(Step);
+  }
+
+  console.log(Ticks);
+
   function f(x) {
     return (x / Math.pow(stdabw, 2)) * Math.pow(Math.E, -(Math.pow(x, 2) / (2 * Math.pow(stdabw, 2))));
   }
@@ -22,6 +30,18 @@ function Chart(Id, A) {
       x: i,
       y: f(i)
     });
+  }
+
+  function calcIntegralMidRule(Points) {
+    var a = Points[0];
+    var b = Points[1];
+    return f((a + b) / 2) * (b - a);
+  }
+
+  function calcIntegralTrapezoidRule(Points) {
+    var a = Points[0];
+    var b = Points[1];
+    var result = (b - a) * (f(a) + f(b)) / 2;
   }
 
   function f_TrapezoidRule(Points, x) {
@@ -69,13 +89,21 @@ function Chart(Id, A) {
     });
 
   if(A == 1) {
-    var rectHeight = -y(f(2)) + h / 2;
-    path.append("rect")
-      .attr("x", x(1))
-      .attr("y", (h / 2) -  rectHeight)
-      .attr("width", x(2) - x(0))
-      .attr("height",  rectHeight);
-      console.log( rectHeight);
+    var rectHeight = 0;
+    var tmp = 0;
+    for (var k = 0; k < Ticks.length - 1; k++) {
+      var mid = (Ticks[k + 1] + Ticks[k]) / 2;
+      console.log("mid:" + mid);
+      rectHeight = -y(f(mid)) + h / 2;
+      path.append("rect")
+        .attr("x", x(Ticks[k]))
+        .attr("y", (h / 2) -  rectHeight)
+        .attr("width", (x(mid) - x(Ticks[k])) * 2)
+        .attr("height",  rectHeight);
+
+      tmp += calcIntegralMidRule([Ticks[k],Ticks[k + 1]]);
+    }
+    console.log("Fläche komplett Mid:" + tmp);
   }
 
   if(A==2) {
@@ -91,6 +119,8 @@ function Chart(Id, A) {
         return y(f_TrapezoidRule([1,3], d.x));
       });
 
+      calcIntegralTrapezoidRule([1,3]);
+
       path.append("g")
         .attr("class", "line2")
         .append("path")
@@ -104,6 +134,7 @@ function Chart(Id, A) {
   }
 
   if(A==3) {
+
 
   var line3 = d3.svg.area()
       .x(function(d) {
