@@ -11,9 +11,9 @@ function Chart() {
     .attr("style", "overflow: visible");
 
   data = [];
-
-  for (var i = -5; i <= 5; i += 0.01) {
-    f = Math.pow(i, 3) + 2 * Math.pow(i, 2);
+  var stdabw = 1;
+  for (var i = 0; i <= 5; i += 0.01) {
+    f = (i / Math.pow(stdabw, 2)) * Math.pow(Math.E, -(Math.pow(i, 2) / (2 * Math.pow(stdabw, 2))));
 		data.push({
       x: i,
       y: f
@@ -32,7 +32,7 @@ function Chart() {
     .range([0, w]);
 
   var y = d3.scale.linear()
-    .domain([-5, 5])
+    .domain([-1, 1])
     //.domain([-5, 5])
     .range([h, 0]);
 
