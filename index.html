@@ -2,34 +2,76 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <title></title>
-  <style media="screen">
-    text {
-      fill: #000;
-      stroke: none;
-      font-size: 12px;
-    }
-    rect, .line2 path {
-      fill: red;
-  fill-opacity: 0.2;
-  stroke: none;
-    }
-  </style>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+        text {
+            fill: #000;
+            stroke: none;
+            font-size: 12px;
+        }
+
+        rect,
+        .line2 path {
+            fill: red;
+            fill-opacity: 0.2;
+            stroke: none;
+        }
+
+        .chart-container {
+            float: left;
+            border-right: solid 1px #999;
+        }
+        .chart {
+            margin-bottom: 50px;
+        }
+        h1, h2 {
+            text-align: center;
+            font-family: Arial;
+        }
+    </style>
 </head>
 
 <body>
-  <div id="chart-1"></div>
-  <div id="chart-2"></div>
-  <div id="chart-3"></div>
-  <script src="lodash.js" charset="utf-8"></script>
-  <script src="d3.js" charset="utf-8"></script>
-  <script src="chart.js" charset="utf-8"></script>
-  <script>
-    new Chart("chart-1", 1, 11);
-    new Chart("chart-2", 2, 1);
-    new Chart("chart-3", 3, 1);
-  </script>
+    <div class="chart-container">
+        <h1>global polynomial approximations</h1>
+        <h2>Midpoint Rule</h2>
+        <div class="chart" id="chart-1"></div>
+
+        <h2>Trapezoid Rule</h2>
+        <div class="chart" id="chart-2"></div>
+
+        <h2>Simpson’s rule</h2>
+        <div class="chart" id="chart-3"></div>
+    </div>
+
+    <div class="chart-container">
+        <h1>local polynomial approximations</h1>
+        <h2>Midpoint Rule</h2>
+        <div class="chart" id="chart-4"></div>
+
+        <h2>Trapezoid Rule</h2>
+        <div class="chart" id="chart-5"></div>
+
+        <h2>Simpson’s rule</h2>
+        <div class="chart" id="chart-6"></div>
+    </div>
+    <script src="lodash.js" charset="utf-8"></script>
+    <script src="d3.js" charset="utf-8"></script>
+    <script src="chart.js" charset="utf-8"></script>
+    <script>
+        //(1 - (e^((-(3^2)) / 2))) - (1 - (e^((-(1^2)) / 2)))
+        var TrueInt = 0.595421663;
+        console.log("Wahrer Wert der Fläche: " + TrueInt);
+
+        new Chart("chart-1", 1, 1);
+        new Chart("chart-2", 2, 1);
+        new Chart("chart-3", 3, 1);
+
+        new Chart("chart-4", 1, 11);
+        new Chart("chart-5", 2, 11);
+        new Chart("chart-6", 3, 11);
+    </script>
 </body>
 
 </html>
