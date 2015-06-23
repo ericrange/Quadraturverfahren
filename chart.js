@@ -12,7 +12,7 @@ function Chart() {
 
   data = [];
 
-  for (var i = -5; i <= 5; i += 0.1) {
+  for (var i = -5; i <= 5; i += 0.01) {
     f = Math.pow(i, 3) + 2 * Math.pow(i, 2);
 		data.push({
       x: i,
@@ -20,17 +20,15 @@ function Chart() {
     });
   }
 
-  console.log(data);
-
-  var maxX = _.max(data, function(x) {
-    return x.x;
-  });
-  var maxY = _.max(data, function(y) {
-    return y.y;
-  });
+  var maxX = _.max(data, function(data) {
+    return data.x;
+  }).x;
+  var maxY = _.max(data, function(data) {
+    return data.y;
+  }).y;
 
   var x = d3.time.scale()
-    .domain([-maxX.x, maxX.x])
+    .domain([-maxX, maxX])
     .range([0, w]);
 
   var y = d3.scale.linear()
