@@ -12,10 +12,11 @@ function Chart() {
 
   data = [];
 
-  for (var i = -50; i <= 50; i += 0.1) {
-    data.push({
+  for (var i = -5; i <= 5; i += 0.1) {
+    f = Math.pow(i, 3) + 2 * Math.pow(i, 2);
+		data.push({
       x: i,
-      y: Math.pow(i, 2)
+      y: f
     });
   }
 
@@ -33,7 +34,7 @@ function Chart() {
     .range([0, w]);
 
   var y = d3.scale.linear()
-    .domain([-100, 100])
+    .domain([-5, 5])
     //.domain([-5, 5])
     .range([h, 0]);
 
