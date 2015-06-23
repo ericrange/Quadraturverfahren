@@ -17,11 +17,17 @@ function Chart(Id, A) {
   }
 
   var stdabw = 1;
-  for (var i = 0; i <= 5; i += 0.01) {
+  for (var i = 0; i <= 5; i += 0.001) {
 		data.push({
       x: i,
       y: f(i)
     });
+  }
+
+  function f_TrapezoidRule(Points, x) {
+    var m = (f(Points[1])-  f(Points[0])) / (Points[1] - Points[0]);
+    var c = (y(Points[0]) - m) + f(Points[0]);
+    return x > Points[0] && x < Points[1] ? m * x + c : 0;
   }
 
   var maxX = _.max(data, function(data) {
@@ -49,11 +55,38 @@ function Chart(Id, A) {
     });
 
   if(A == 1) {
+    var rectHeight = -y(f(2)) + h / 2;
     path.append("rect")
-      .attr("x", x(0))
-      .attr("y", (h / 2) - y(f(1.5)))
-      .attr("width", x(3) - x(0))
-      .attr("height", y(f(1.5)));
+      .attr("x", x(1))
+      .attr("y", (h / 2) -  rectHeight)
+      .attr("width", x(2) - x(0))
+      .attr("height",  rectHeight);
+      console.log( rectHeight);
+  }
+
+  if(A==2) {
+
+  var line2 = d3.svg.area()
+      .x(function(d) {
+        return x(d.x);
+      })
+      .y0(function(d) {
+        return y(0);
+      })
+      .y1(function(d) {
+        return y(f_TrapezoidRule([1,3], d.x));
+      });
+
+      path.append("g")
+        .attr("class", "line2")
+        .append("path")
+        .datum(data)
+        .transition()
+        .duration(450)
+        .attr("d", line2)
+        .attr("stroke", "red")
+        .attr("fill", "none");
+
   }
 
   path.append("g")
