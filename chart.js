@@ -77,7 +77,6 @@ function Chart(Id, A, n) {
 
   var y = d3.scale.linear()
     .domain([-1, 1])
-    //.domain([-5, 5])
     .range([h, 0]);
 
   var line = d3.svg.line()
@@ -93,7 +92,6 @@ function Chart(Id, A, n) {
     var tmp = 0;
     for (var k = 0; k < Ticks.length - 1; k++) {
       var mid = (Ticks[k + 1] + Ticks[k]) / 2;
-      console.log("mid:" + mid);
       rectHeight = -y(f(mid)) + h / 2;
       path.append("rect")
         .attr("x", x(Ticks[k]))
