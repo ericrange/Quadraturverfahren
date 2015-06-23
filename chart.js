@@ -1,22 +1,26 @@
-function Chart() {
+function Chart(Id, A) {
 
   var w = document.body.clientWidth,
     h = 600,
     data = null,
     path = d3
-    .select("#chart")
+    .select("#" + Id)
     .append("svg")
     .attr("width", w)
     .attr("height", h)
     .attr("style", "overflow: visible");
 
-  data = [];
+  data = [], f;
+
+  function f(x) {
+    return (x / Math.pow(stdabw, 2)) * Math.pow(Math.E, -(Math.pow(x, 2) / (2 * Math.pow(stdabw, 2))));
+  }
+
   var stdabw = 1;
   for (var i = 0; i <= 5; i += 0.01) {
-    f = (i / Math.pow(stdabw, 2)) * Math.pow(Math.E, -(Math.pow(i, 2) / (2 * Math.pow(stdabw, 2))));
 		data.push({
       x: i,
-      y: f
+      y: f(i)
     });
   }
 
@@ -43,6 +47,14 @@ function Chart() {
     .y(function(d) {
       return y(d.y);
     });
+
+  if(A == 1) {
+    path.append("rect")
+      .attr("x", x(0))
+      .attr("y", (h / 2) - y(f(1.5)))
+      .attr("width", x(3) - x(0))
+      .attr("height", y(f(1.5)));
+  }
 
   path.append("g")
     .attr("class", "line")

@@ -14,12 +14,16 @@
 </head>
 
 <body>
-  <div id="chart"></div>
+  <div id="chart-1"></div>
+  <div id="chart-2"></div>
+  <div id="chart-3"></div>
   <script src="lodash.js" charset="utf-8"></script>
   <script src="d3.js" charset="utf-8"></script>
   <script src="chart.js" charset="utf-8"></script>
   <script>
-    new Chart();
+    new Chart("chart-1", 1);
+    new Chart("chart-2", 2);
+    new Chart("chart-3", 3);
   </script>
 </body>
 
