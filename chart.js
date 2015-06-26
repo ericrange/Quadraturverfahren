@@ -40,21 +40,6 @@ function Chart(Id, A, n, pp) {
     return Math.random() * (max - min) + min;
   }
 
-  if (pp == 1) {
-    data = [];
-    var N = 10000;
-    var Ratio = 0;
-    for (var m = 1; m <= N; m++) {
-      var RandomX = getRandomArbitrary(1, 3);
-      Ratio += (f(RandomX) / g(RandomX)) - 1;
-      data.push({
-        x: m,
-        y: (Ratio / (m))
-      });
-    }
-		console.log("Der Erwartungswert geht gegen: " + Ratio / N);
-  }
-
   function calcIntegralMidRule(Points) {
     var a = Points[0];
     var b = Points[1];
@@ -96,12 +81,37 @@ function Chart(Id, A, n, pp) {
     return x > Points[0] && x < Points[1] ? A + B + C : 0;
   }
 
+      if (pp == 1) {
+    data = [], vergleich = [];
+    var N = 10000;
+    var Ratio = 0;
+    for (var m = 1; m <= N; m++) {
+      var RandomX = getRandomArbitrary(1, 3);
+      Ratio += (f(RandomX) / g(RandomX)) - 1;
+      data.push({
+        x: m,
+        y: (Ratio / (m))
+      });
+      vergleich.push({
+x: m,
+y: TrueInt
+      });
+    }
+		console.log("Der Erwartungswert geht gegen: " + Ratio / N);
+
+		
+  }
+
   var maxX = _.max(data, function(data) {
     return data.x;
   }).x;
   var maxY = _.max(data, function(data) {
     return data.y;
   }).y;
+
+  if(pp==1) {
+  	maxX /= 2;
+  }
 
   var x = d3.time.scale()
     .domain([-maxX, maxX])
@@ -194,6 +204,20 @@ function Chart(Id, A, n, pp) {
     console.log("Komplette Fläche nach Simpsons-Rule Approximation: " + area + " bei n=" + n + " Delta=" + (TrueInt - area));
   }
 
+
+
+if (pp == 1) {
+path.append("g")
+    .attr("class", "line3")
+    .append("path")
+    .datum(vergleich)
+    .transition()
+    .duration(450)
+    .attr("d", line)
+    .attr("stroke", "blue")
+    .attr("fill", "none");
+}
+
   path.append("g")
     .attr("class", "line")
     .append("path")
@@ -203,6 +227,7 @@ function Chart(Id, A, n, pp) {
     .attr("d", line)
     .attr("stroke", "red")
     .attr("fill", "none");
+
 
   var yAxis = d3.svg.axis()
     .scale(y)
