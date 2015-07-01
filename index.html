@@ -40,6 +40,8 @@
     <div class="chart-container">
 
     <div class="chart" id="chart-0"></div>
+    <div class="chart" id="chart-00"></div>
+    <div class="chart" id="chart-000"></div>
 
         <h1>global polynomial approximations</h1>
         <h2>Midpoint Rule</h2>
@@ -71,6 +73,9 @@
 
          <h2>Normal</h2>
         <div class="chart" id="chart-8"></div>
+
+        <h2>Exp</h2>
+       <div class="chart" id="chart-9"></div>
     </div>
 
     <script src="lodash.js" charset="utf-8"></script>
@@ -80,6 +85,8 @@
         var TrueInt = 0.595421663;
         console.log("Wahrer Wert der Fläche: " + TrueInt);
 
+        new Chart("chart-000", 555, 1, 0);
+        new Chart("chart-00", 5, 1, 0);
         new Chart("chart-0", 4, 1, 0);
         new Chart("chart-1", 1, 1, 0);
         new Chart("chart-2", 2, 1, 0);
@@ -89,8 +96,9 @@
         new Chart("chart-5", 2, 11, 0);
         new Chart("chart-6", 3, 11, 0);
 
-        new Chart("chart-7", 3, 11, 1);
-        new Chart("chart-8", 5, 11, 1);
+        new Chart("chart-7", 8, 11, 1);
+        new Chart("chart-8", 6, 11, 1);
+        new Chart("chart-9", 10, 11, 1);
     </script>
 </body>
 
