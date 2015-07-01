@@ -85,9 +85,16 @@ function Chart(Id, A, n, pp) {
     data = [], vergleich = [];
     var N = 10000;
     var Ratio = 0;
+
+if(A==5) {
+	g = function(x) {
+		return 1 / (3 - 1);
+	}
+}
+
     for (var m = 1; m <= N; m++) {
       var RandomX = getRandomArbitrary(1, 3);
-      Ratio += (f(RandomX) / g(RandomX)) - 1;
+      Ratio += (f(RandomX) / g(RandomX));
       data.push({
         x: m,
         y: (Ratio / (m))
@@ -202,6 +209,27 @@ y: TrueInt
       area += calcIntegralSimpsonRule([Ticks[k], Ticks[k + 1]]);
     }
     console.log("Komplette Fläche nach Simpsons-Rule Approximation: " + area + " bei n=" + n + " Delta=" + (TrueInt - area));
+  }
+
+  if(A== 4) {
+
+  	var tmp = d3.svg.line()
+        .x(function(d) {
+          return x(d.x);
+        })
+        .y(function(d) {
+          return y(g(d.x));
+        });
+
+      path.append("g")
+        .attr("class", "line3")
+        .append("path")
+        .datum(data)
+        .attr("d", tmp)
+        .attr("stroke", "blue")
+        .attr("stroke-width", "2px")
+    	.attr("fill", "none");
+
   }
 
 
