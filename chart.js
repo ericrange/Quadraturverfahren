@@ -1,5 +1,8 @@
 function Chart(Id, A, n, pp) {
 
+	var InInt = 0;
+	var OutInt = 0;
+
 	var w = document.body.clientWidth,
 		h = 400,
 		data = null,
@@ -36,8 +39,28 @@ function Chart(Id, A, n, pp) {
 		});
 	}
 
+	function logE(x) {
+	  return Math.log(x) / Math.log(Math.E);
+	}
+
 	function getRandomArbitrary(min, max) {
 		return Math.random() * (max - min) + min;
+	}
+
+	function getExpDistributedRandom(min, max) {
+		var Lamda = 0.9289;
+		OutInt = 0;
+		function getRan() {
+			OutInt += 1;
+			var Lamda = 0.9289;
+			return Math.exp(getRandomArbitrary(0,1)) / Lamda;
+		}
+
+		var Ran = getRan();
+		while(Ran <= min || Ran >= max) {
+			Ran = getRan();
+		}
+		return Ran * 0.24;
 	}
 
 	function calcIntegralMidRule(Points) {
@@ -102,8 +125,17 @@ function Chart(Id, A, n, pp) {
 
 		for (var m = 1; m <= N; m++) {
 			var RandomX = getRandomArbitrary(1, 3);
+
+			if(A == 10) {
+				RandomX = getExpDistributedRandom(1, 3);
+			}
+
+			if(A == 8) {
+				RandomX = getRandomArbitrary(1, 3) / 20;
+			}
+
 			Ratio += (f(RandomX) / g(RandomX));
-			if (A == 8) Ratio -= 1;
+
 			data.push({
 				x: m,
 				y: (Ratio / (m))
