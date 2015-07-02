@@ -3,7 +3,7 @@ function Chart(Id, A, n, pp) {
 	var InInt = 0;
 	var OutInt = 0;
 
-	var w = document.body.clientWidth,
+	var w = document.body.clientWidth -100,
 		h = 400,
 		data = null,
 		path = d3
@@ -12,6 +12,10 @@ function Chart(Id, A, n, pp) {
 		.attr("width", w)
 		.attr("height", h)
 		.attr("style", "overflow: visible");
+
+	if (A === 11111) {
+		//h = 800;
+	}
 
 	data = [], f;
 
@@ -40,7 +44,7 @@ function Chart(Id, A, n, pp) {
 	}
 
 	function logE(x) {
-	  return Math.log(x) / Math.log(Math.E);
+		return Math.log(x) / Math.log(Math.E);
 	}
 
 	function getRandomArbitrary(min, max) {
@@ -50,14 +54,15 @@ function Chart(Id, A, n, pp) {
 	function getExpDistributedRandom(min, max) {
 		var Lamda = 0.9289;
 		OutInt = 0;
+
 		function getRan() {
 			OutInt += 1;
 			var Lamda = 0.9289;
-			return Math.exp(getRandomArbitrary(0,1)) / Lamda;
+			return Math.exp(getRandomArbitrary(0, 1)) / Lamda;
 		}
 
 		var Ran = getRan();
-		while(Ran <= min || Ran >= max) {
+		while (Ran <= min || Ran >= max) {
 			Ran = getRan();
 		}
 		return Ran * 0.24;
@@ -126,11 +131,11 @@ function Chart(Id, A, n, pp) {
 		for (var m = 1; m <= N; m++) {
 			var RandomX = getRandomArbitrary(1, 3);
 
-			if(A == 10) {
+			if (A == 10) {
 				RandomX = getExpDistributedRandom(1, 3);
 			}
 
-			if(A == 8) {
+			if (A == 8) {
 				RandomX = getRandomArbitrary(1, 3) / 20;
 			}
 
@@ -165,9 +170,21 @@ function Chart(Id, A, n, pp) {
 		.domain([-maxX, maxX])
 		.range([0, w]);
 
+	if (A === 11111) {
+		x = d3.time.scale()
+			.domain([-200, 200])
+			.range([0, w]);
+	}
+
 	var y = d3.scale.linear()
 		.domain([-1, 1])
 		.range([h, 0]);
+
+	if (A === 11111) {
+		y = d3.scale.linear()
+			.domain([0.5, 0.7])
+			.range([h, 0]);
+	}
 
 	var line = d3.svg.line()
 		.x(function (d) {
@@ -193,6 +210,10 @@ function Chart(Id, A, n, pp) {
 		}
 
 		console.log("Komplette Fläche nach Midpoint-Rule Approximation: " + area + " bei n=" + n + " Delta=" + (TrueInt - area));
+		if (Id == "test") return {
+			x: n,
+			y: area
+		};
 	}
 
 	if (A == 2) {
@@ -226,6 +247,10 @@ function Chart(Id, A, n, pp) {
 			area += calcIntegralTrapezoidRule([Ticks[k], Ticks[k + 1]]);
 		}
 		console.log("Komplette Fläche nach Trapezoid-Rule Approximation: " + area + " bei n=" + n + " Delta=" + (TrueInt - area));
+		if (Id == "test") return {
+			x: n,
+			y: area
+		};
 	}
 
 	if (A == 3) {
@@ -250,6 +275,10 @@ function Chart(Id, A, n, pp) {
 			area += calcIntegralSimpsonRule([Ticks[k], Ticks[k + 1]]);
 		}
 		console.log("Komplette Fläche nach Simpsons-Rule Approximation: " + area + " bei n=" + n + " Delta=" + (TrueInt - area));
+		if (Id == "test") return {
+			x: n,
+			y: area
+		};
 	}
 
 	if (A == 4) {
@@ -339,21 +368,12 @@ function Chart(Id, A, n, pp) {
 			.attr("fill", "none");
 	}
 
-	path.append("g")
-		.attr("class", "line")
-		.append("path")
-		.datum(data)
-		.transition()
-		.duration(450)
-		.attr("d", line)
-		.attr("stroke", "red")
-		.attr("fill", "none");
-
-		/*
-
+	if (A === 11111) {
 		var Data = [];
-		for(var i = 1; i <= 20; i++) {
-			Data.push(new Chart("chart-1", 1, i, 0));
+		for (var i = 1; i <= 200; i++) {
+			if(pp == 0) Data.push(new Chart("test", 1, i, 0));
+			if(pp == 10) Data.push(new Chart("test", 2, i, 0));
+			if(pp == 100) Data.push(new Chart("test", 3, i, 0));
 		}
 		console.log(Data);
 		var tmp = d3.svg.line()
@@ -365,17 +385,46 @@ function Chart(Id, A, n, pp) {
 			});
 
 		path.append("g")
-		.attr("class", "line")
-		.append("path")
-		.datum(Data)
-		.transition()
-		.duration(450)
-		.attr("d", line)
-		.attr("stroke", "red")
-		.attr("fill", "none");
+			.attr("class", "line")
+			.append("path")
+			.datum(Data)
+			.transition()
+			.duration(450)
+			.attr("d", tmp)
+			.attr("stroke", "red")
+			.attr("fill", "none");
 
-		*/
+		var compare = d3.svg.line()
+			.x(function (d) {
+				return x(d.x);
+			})
+			.y(function (d) {
+				return y(TrueInt);
+			});
 
+		path.append("g")
+			.attr("class", "line3")
+			.append("path")
+			.datum(Data)
+			.transition()
+			.duration(450)
+			.attr("d", compare)
+			.attr("stroke", "blue")
+			.attr("fill", "none");
+
+	} else {
+
+		path.append("g")
+			.attr("class", "line")
+			.append("path")
+			.datum(data)
+			.transition()
+			.duration(450)
+			.attr("d", line)
+			.attr("stroke", "red")
+			.attr("fill", "none");
+
+	}
 
 	var yAxis = d3.svg.axis()
 		.scale(y)
@@ -392,6 +441,9 @@ function Chart(Id, A, n, pp) {
 		.attr("fill", "none")
 		.attr("stroke", "#999")
 		.call(yAxis);
+
+		if(A===11111)
+		h *= 2;
 
 	path.append("g")
 		.attr("class", "x axis")
