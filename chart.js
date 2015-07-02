@@ -317,6 +317,33 @@ function Chart(Id, A, n, pp) {
 		.attr("stroke", "red")
 		.attr("fill", "none");
 
+		/*
+
+		var Data = [];
+		for(var i = 1; i <= 20; i++) {
+			Data.push(new Chart("chart-1", 1, i, 0));
+		}
+		console.log(Data);
+		var tmp = d3.svg.line()
+			.x(function (d) {
+				return x(d.x);
+			})
+			.y(function (d) {
+				return y(d.y);
+			});
+
+		path.append("g")
+		.attr("class", "line")
+		.append("path")
+		.datum(Data)
+		.transition()
+		.duration(450)
+		.attr("d", line)
+		.attr("stroke", "red")
+		.attr("fill", "none");
+
+		*/
+
 
 	var yAxis = d3.svg.axis()
 		.scale(y)
